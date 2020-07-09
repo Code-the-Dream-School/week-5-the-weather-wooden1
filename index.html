@@ -22,7 +22,25 @@
           </div>
         </div>
       </div>
-      <div id="info"> </div>
+      <div id="info">
+      <table>
+        <thead>
+          <tr>
+            <th>day</th>
+            <th>min</th>
+            <th>max</th>
+            <th>weather</th>
+          </tr>
+        </thead>
+        <tbody>${data.map((i) => {
+          <tr>
+            <th>${weekday[date.getDay()]}</th>
+            <th>${data.daily[i].temp.min}</th>
+            <th>${data.daily[i].temp.max}</th>
+            <th><img src="http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png"></img></th>
+          </tr>
+          </tbody>
+      </div>
     </div>
     <script type="text/javascript" src="weather.js"></script>
   </body>
