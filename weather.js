@@ -42,9 +42,9 @@ function weatherData() {
     const table = document.createElement('table')
     const date = new Date()
     const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-
+    const day = weekday[date.getDay()]
     table.innerHTML =
-    `<thead><tr><th>day</th><th>min</th><th>max</th><th>weather</th></tr></thead><tbody>${data.map(el => `<tr><th>${weekday[date.getDay()]}</th><th>${data.daily[el].temp.min}</th><th>${data.daily[el].temp.max}</th><th><img src="http://openweathermap.org/img/wn/${data.daily[el].weather[0].icon}@2x.png"></img></th></tr>`)
+    `<thead><tr><th>day</th><th>min</th><th>max</th><th>weather</th></tr></thead><tbody>${data.daily.map((el, index) => `<tr><th>${weekday[index || date.getDay()]}</th><th>${el.temp.min}</th><th>${el.temp.max}</th><th><img src="http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png"></img></th></tr>`)
     } </tbody>`
     info.appendChild(table)
   }
