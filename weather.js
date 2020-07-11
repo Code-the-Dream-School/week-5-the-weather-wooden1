@@ -1,11 +1,6 @@
 
 const searchBtn = document.getElementById('search')
-// takes a url and checks for ok status, then returns json data
-function fetchData(url) {
-  return fetch(url)
-    .then(checkStatus)
-    .then(res => res.json())
-}
+
 // checks that response status is greenlit
 function checkStatus(response) {
   if (response.ok) {
@@ -13,6 +8,14 @@ function checkStatus(response) {
   }
   return Promise.reject(new Error(response.statusText))
 }
+
+// takes a url and checks for ok status, then returns json data
+function fetchData(url) {
+  return fetch(url)
+    .then(checkStatus)
+    .then(res => res.json())
+}
+
 // Takes in openweather api data and manipulates the dom to display said data
 function weatherData() {
   // todo: put api key in .env file
@@ -39,21 +42,20 @@ function weatherData() {
     const table = document.createElement('table')
     const date = new Date()
     const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
     table.innerHTML =
-    `<thead><tr><th>day</th><th>min</th><th>max</th><th>weather</th></tr></thead><tbody>${data.map(i => `<tr><th>${weekday[date.getDay()]}</th><th>${data.daily[i].temp.min}</th><th>${data.daily[i].temp.max}</th><th><img src="http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png"></img></th></tr>`)
+    `<thead><tr><th>day</th><th>min</th><th>max</th><th>weather</th></tr></thead><tbody>${data.map(el => `<tr><th>${weekday[date.getDay()]}</th><th>${data.daily[el].temp.min}</th><th>${data.daily[el].temp.max}</th><th><img src="http://openweathermap.org/img/wn/${data.daily[el].weather[0].icon}@2x.png"></img></th></tr>`)
     } </tbody>`
     info.appendChild(table)
   }
 
   fetchData(weatherUrl)
     .then((data) => {
-      const date = new Date()
-      console.log(date.getDay())
       const { lat, lon } = data.coord
       console.log(lat, lon)
       createHtml(data)
-      // FIXME: CORS requesgt blocked: same origin policy disallows reading the remote resource:  reason cors did not succeed
-      return fetch(`https://api.openweather.org/data/2.5/onecall?lat=${lat}&lon${lon}&units=imperial&appid=${weatherApiKey}`, {
+
+      return fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherApiKey}`, {
         'Access-Control-Allow-Origin': '*',
       })
     })
