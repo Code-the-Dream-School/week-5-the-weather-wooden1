@@ -3,6 +3,7 @@
   margin: auto;
   margin-top: 2%;
   text-align: center;
+
 }
 
 th{
@@ -17,4 +18,5 @@ img{
 table{
   width: 100%;
   background-color: #1b1b1b;
+  color: #fafa6f;
 }

@@ -36,23 +36,26 @@ function weatherData() {
         <br>`
     info.appendChild(section)
   }
-
+  // FIXME: get future days of getDay() properly
   // Creates a  table element,and adds 'one call' openweather api data into the table cells
   function creatTable(data) {
     const table = document.createElement('table')
     const date = new Date()
-    const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    const day = weekday[date.getDay()]
-    table.innerHTML =
-    `<thead><tr><th>day</th><th>min</th><th>max</th><th>weather</th></tr></thead><tbody>${data.daily.map((el, index) => `<tr><th>${weekday[index || date.getDay()]}</th><th>${el.temp.min}</th><th>${el.temp.max}</th><th><img src="http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png"></img></th></tr>`)
-    } </tbody>`
+    const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Next Week']
+    // const day = date.getDay()
+
+    table.innerHTML = `<thead><tr><th>day</th><th>min</th><th>max</th><th>weather</th></tr></thead><tbody>${data.daily.map((el, index) =>
+      `<tr><th>${weekday[index]}</th><th>${Math.round(el.temp.min)}</th><th>${Math.round(el.temp.max)}</th><th><img src="http://openweathermap.org/img/wn/${
+        el.weather[0].icon
+      }@2x.png"></img></th></tr>`)} </tbody>`
     info.appendChild(table)
+    // console.log(data.getUTCMilliseconds)
+    // console.log(data.getDay())
   }
 
   fetchData(weatherUrl)
     .then((data) => {
       const { lat, lon } = data.coord
-      console.log(lat, lon)
       createHtml(data)
 
       return fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherApiKey}`, {
