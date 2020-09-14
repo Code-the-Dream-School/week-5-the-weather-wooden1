@@ -1,4 +1,3 @@
-
 const searchBtn = document.getElementById('search')
 
 // checks that response status is greenlit
@@ -13,13 +12,13 @@ function checkStatus(response) {
 function fetchData(url) {
   return fetch(url)
     .then(checkStatus)
-    .then(res => res.json())
+    .then((res) => res.json())
 }
 
 // Takes in openweather api data and manipulates the dom to display said data
 function weatherData() {
   // todo: put api key in .env file
-  const weatherApiKey = '7ef867f3a2a7e40636bfa28fc0d9173c'
+  const weatherApiKey = WEATHERAPIKEY
   const city = document.getElementById('city').value
   const info = document.getElementById('info')
 
@@ -41,11 +40,26 @@ function weatherData() {
   function creatTable(data) {
     const table = document.createElement('table')
     const date = new Date()
-    const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const weekday = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ]
 
-    table.innerHTML =
-    `<thead><tr><th>day</th><th>min</th><th>max</th><th>weather</th></tr></thead><tbody>${data.map(el => `<tr><th>${weekday[date.getDay()]}</th><th>${data.daily[el].temp.min}</th><th>${data.daily[el].temp.max}</th><th><img src="http://openweathermap.org/img/wn/${data.daily[el].weather[0].icon}@2x.png"></img></th></tr>`)
-    } </tbody>`
+    table.innerHTML = `<thead><tr><th>day</th><th>min</th><th>max</th><th>weather</th></tr></thead><tbody>${data.map(
+      (el) =>
+        `<tr><th>${weekday[date.getDay()]}</th><th>${
+          data.daily[el].temp.min
+        }</th><th>${
+          data.daily[el].temp.max
+        }</th><th><img src="http://openweathermap.org/img/wn/${
+          data.daily[el].weather[0].icon
+        }@2x.png"></img></th></tr>`
+    )} </tbody>`
     info.appendChild(table)
   }
 
@@ -55,11 +69,14 @@ function weatherData() {
       console.log(lat, lon)
       createHtml(data)
 
-      return fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherApiKey}`, {
-        'Access-Control-Allow-Origin': '*',
-      })
+      return fetch(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherApiKey}`,
+        {
+          'Access-Control-Allow-Origin': '*',
+        }
+      )
     })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then((data) => {
       console.log(data)
       creatTable(data)
