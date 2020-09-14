@@ -18,7 +18,7 @@ function fetchData(url) {
 // Takes in openweather api data and manipulates the dom to display said data
 function weatherData() {
   // todo: put api key in .env file
-  const weatherApiKey = WEATHERAPIKEY
+  const weatherApiKey = WEATHER_API_KEY
   const city = document.getElementById('city').value
   const info = document.getElementById('info')
 
